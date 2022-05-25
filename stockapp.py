@@ -1,18 +1,27 @@
 import numpy as np   #LIBRARIES
 import pandas as pd 
 import matplotlib.pyplot as plt
-import pandas_datareader as data
+import pandas_datareader as data  #extract data from various Internet sources into a pandas DataFrame
 from keras.models import load_model  #we need to load the model that we had created cant run epoch everytime
 import streamlit as st
 
+#theming
+base="dark"
+primaryColor="purple"
+font="serif"
 
 start='2010-01-01'   
 end='2022-05-20'
 
-st.title('STOCK TREND PREDICTION')
+
+#st.title('STOCK TREND PREDICTION')
+st.markdown("<h1 style='text-align: center; color: white;'>STOCK TREND PREDICTION</h1>", unsafe_allow_html=True)
+st.image('quotes.png')
+st.image('image.png')
 
 
-user_input = st.text_input('Enter Stock Ticker','AAPL')#default is apple#input from user the stock Ticker
+
+user_input = st.text_input('Enter Stock Ticker','AMZN')#default is apple#input from user the stock Ticker
 df= data.DataReader(user_input,'yahoo',start,end) #scraping data from yahoo finance website 
 
 #Describing data
@@ -20,19 +29,7 @@ st.subheader('Data from 2010 - 2022')
 st.write(df.describe())
 
 #visualizations
-#plotting simple closing price chart
 
-st.subheader('Closing Price vs Time Chart')
-fig = plt.figure(figsize = (12,6))
-plt.plot(df.Close)
-st.pyplot(fig)
-
-st.subheader('Closing Price vs Time Chart with 100MA')
-ma100=df.Close.rolling(100).mean()
-fig = plt.figure(figsize = (12,6))
-plt.plot(ma100)
-plt.plot(df.Close)
-st.pyplot(fig)
 
 st.subheader('Closing Price vs Time Chart with 100Ma and 200MA')
 ma100=df.Close.rolling(100).mean()
@@ -106,5 +103,6 @@ plt.ylabel('Price')
 plt.legend()
 plt.show()
 st.pyplot(fig2)
+
 
 
